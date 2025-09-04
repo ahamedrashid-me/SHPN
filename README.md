@@ -1,4 +1,5 @@
-# Shadow-Path: The Censorship-Resistant Distributed Network
+
+# Shadow-Path: The Sovereign Censorship-Resistant Network
 
 ![License: AGPLv3](https://img.shields.io/badge/License-AGPLv3-blue.svg)
 ![Language: D](https://img.shields.io/badge/Language-D-red.svg)
@@ -6,120 +7,158 @@
 
 ## Vision
 
-Shadow-Path is an ambitious open-source project to create a decentralized, volunteer-operated network that provides anonymous, censorship-resistant communication and file storage. It allows users to securely share information by knowing only a secret link—a `.path` URL. The network is built by its users, who donate bandwidth and disk space to form a resilient "shadow" internet, resistant to surveillance and control.
+Shadow-Path is not just a tool; it is a parallel internet. It is a decentralized, volunteer-operated sovereign network where the only law is cryptography. There is no HTTP, no WWW. The **`sp:` protocol is the only gateway**. Users run a dedicated client application to enter this realm, where they can share files, host websites, and communicate, all built upon a foundation of absolute anonymity and radical decentralization. The network is its users, who donate resources to create an unassailable "shadow" world.
 
 ## Core Principles
 
-*   **Absolute Privacy:** No metadata leakage. No IP logging. No knowledge of content stored or accessed.
-*   **Plausible Deniability:** Node operators cannot be held responsible for the encrypted data chunks they store. The stored data is indistinguishable from random noise.
-*   **Radical Decentralization:** No central servers or authorities. The network is built and owned by its users.
-*   **User Empowerment:** Users have transparent, fine-grained control over their donated resources (disk, bandwidth, CPU).
-*   **Security First:** The application is rigorously isolated from the host system using modern Linux security primitives.
+*   **Sovereign Protocol:** The `sp:` protocol is the exclusive access method. There is no HTTP bridge.
+*   **Absolute Privacy:** Zero metadata leakage. No IP logging. Content is unknowable.
+*   **Plausible Deniability:** Node operators store only encrypted, indistinguishable data chunks.
+*   **Radical Decentralization:** No central servers or authorities. The network is its users.
+*   **One Client, One Network:** A dedicated application is the only interface to this world.
 
-## How It Works (Conceptual Overview)
+## How It Works: The Sovereign Pattern
 
-1.  **A User Publishes:**
-    *   Drops a file into the Shadow-Path application.
-    *   The client encrypts the file, breaks it into redundant chunks, and generates a unique `.path` URL (a cryptographic hash).
-    *   These encrypted chunks are anonymously distributed across the volunteered storage ("Black Boxes") of other nodes on the network.
+1.  **Publish:** A user drops content (a file, website, chat message) into the Shadow-Path client.
+    *   The client encrypts and shatters the content into chunks.
+    *   It distributes these chunks to the "Black Boxes" of volunteers.
+    *   It generates a unique key: a **`.path` URL** (e.g., `sp:ax8f...y9z1.path`).
 
-2.  **A User Retrieves:**
-    *   Pastes a `.path` URL into their Shadow-Path application.
-    *   The client anonymously queries the network to find the locations of the required chunks.
-    *   Using a multi-layered routing protocol ("Lost Path"), it retrieves the chunks, verifies them, decrypts them, and reassembles the original file.
-    *   The publisher and retriever remain anonymous to each other and to the nodes storing the data.
+2.  **Share:** The user shares this `.path` URL. **This URL is the secret key.**
 
-3.  **A User Volunteers:**
-    *   Installs the `shadowd` daemon.
-    *   Configures how much disk space to donate (their "Black Box") and bandwidth to contribute.
-    *   The daemon runs securely in the background, helping to store data and route traffic for others, strengthening the entire network.
+3.  **Access:**
+    *   Another user clicks the `sp:` link, launching the Shadow-Path client.
+    *   The client commands the `shadowd` daemon to find, retrieve, and decrypt the chunks.
+    *   The content is rendered **within the client's built-in viewer**—be it a document, website, or chat interface.
 
-## Technology Stack & Why D?
-
-We are building the core daemon (`shadowd`) and protocols in the **D programming language**.
-
-*   **Performance:** Compiles to native code, offering bare-metal speed crucial for cryptographic operations and high-throughput networking.
-*   **Safety:** Features like `@safe` memory-safe subsets eliminate whole classes of bugs common in C/C++, without a garbage collector penalty in critical paths.
-*   ** productivity:** Modern syntax, powerful generics, built-in unit testing, and the `dub` build tool enable rapid and reliable development.
-*   **Ecosystem:** Excellent C interoperability allows us to use battle-tested libraries like Libsodium via Deimos bindings.
-
-## System Architecture
-
-The system is composed of several integrated components:
+## System Architecture: The Pillars
 
 | Component | Purpose |
 | :--- | :--- |
-| **`shadowd` Daemon** | The core Linux daemon that implements the protocol and manages the Black Box. Runs isolated under a dedicated user. |
-| **Lost Path Protocol (LPP)** | A suite of protocols for routing, storage, and retrieval. |
-| **LPP-DHT** | A Kademlia-based Distributed Hash Table for peer and chunk discovery. |
-| **LPP-MIX** | A low-volume, high-latency mixnet for anonymous control messages and connection setup. |
-| **LPP-TUN** | A fast, onion-routed tunnel protocol for high-speed data transfer. |
-| **Black Box** | An isolated directory on a volunteer's disk storing encrypted data chunks. |
-| **CLI/GUI Client** | The user interface for interacting with the network (publish/retrieve). |
+| **`shadowd` Daemon** | The core engine. Manages the P2P network, the Black Box, and all crypto operations. |
+| **`candle` Client** | The sovereign application. The only interface for viewing, publishing, and interacting with `sp:` content. Includes a built-in renderer. |
+| **Lost Path Protocol (LPP)** | The suite of protocols that power the sovereign network (DHT, Mixnet, Tun). |
+| **Black Box** | Isolated storage on a volunteer's disk for encrypted chunks. the system will not effected by blackbox, read only by system, write only from "ghost" the user, no one know whats in the blackbox! unless explored by the candle |
+
+## Why Shadow-Path? The Sovereign Advantage
+
+| Feature | Regular Internet | Tor / I2P | **Shadow-Path** |
+| :--- | :--- | :--- | :--- |
+| **Protocol** | HTTP/S | HTTP/S over anonymity layers | **`sp:` (Sovereign)** |
+| **Access Client** | Browser | Browser + Proxy | **Dedicated App** |
+| **Network Model** | Client-Server | Anonymized Access | **Self-Contained Realm** |
+| **Operator Risk** | N/A | Medium (Relay Operator) | **Very High (Plausible Deniability)** |
+
+**Shadow-Path stands alone by being a complete alternative, not an accessory to the old web.**
 
 ## Project Roadmap
 
 ### Phase 0: Research & Specification (Current Phase)
 -   [ ] Finalize the Lost Path Protocol (LPP) specification.
--   [ ] Define the `.path` URL standard and cryptographic formats.
--   [ ] Create detailed threat model and architecture diagrams.
+-   [ ] Define the `.path` URL standard.
 -   [ ] **Deliverable:** Complete `docs/05-PROTOCOL.md` spec.
 
 ### Phase 1: Core Library & CLI (Months 1-4)
--   [ ] Develop `libshadow` core library in D (crypto, chunking, storage).
--   [ ] Build a simple CLI tool for local file encryption/decryption using the `.path` standard.
--   [ ] **Deliverable:** A functional CLI that can `add` and `get` files locally.
+-   [ ] Develop `libshadow` in D (crypto, chunking, storage).
+-   [ ] **Deliverable:** `shadowt` CLI tool to publish/get files locally.
 
 ### Phase 2: The `shadowd` Daemon (Months 5-8)
--   [ ] Implement the LPP-DHT for peer discovery.
--   [ ] Build the `shadowd` daemon with systemd integration and sandboxing.
--   [ ] Develop initial AppArmor/SELinux profiles.
--   [ ] **Deliverable:** A secure daemon that can join a test network and respond to DHT queries.
+-   [ ] Implement LPP-DHT for peer discovery.
+-   [ ] Build the `shadowd` daemon with systemd integration.
+-   [ ] **Deliverable:** A secure daemon that can join a test network.
 
-### Phase 3: Networking & Anonymity (Months 9-12)
--   [ ] Implement LPP-MIX and LPP-TUN protocols for anonymous routing.
--   [ ] Integrate the full stack: CLI can publish/retrieve over the network.
--   [ ] Onboard initial testers to form "Shadow Net One."
--   [ ] **Deliverable:** A usable alpha for technical users.
+### Phase 3: The Sovereign `shadow` Client (Months 9-12)
+-   [ ] Develop the GUI client with built-in viewer (using WebKitGTK).
+-   [ ] Implement `sp:` protocol handler OS integration.
+-   [ ] **Deliverable:** A usable alpha where users can browse `.path` sites.
 
-### Phase 4: GUI & Ecosystem (Future)
--   [ ] Develop a cross-platform GUI application.
--   [ ] Enhance protocol performance and security.
--   [ ] Explore mobile clients and wider adoption.
+### Phase 4: Ecosystem (Future)
+-   [ ] Develop "Lighter" terminal chat.
+-   [ ] Enhance protocol performance.
 
 ## Getting Started for Developers
-
-We welcome contributors! Here's how to dive in:
 
 1.  **Get Familiar:** Read the `/docs` directory, starting with `01-VISION.md` and `05-PROTOCOL.md`.
 2.  **Set Up Your Environment:**
     ```bash
-    # Install the D compiler (ldc2 recommended) and dub
     git clone https://github.com/shadow-path/shadow.git
     cd shadow
-    # Install dependencies (e.g., libsodium)
     dub build
     ```
-3.  **Find an Issue:** Look for issues tagged `good first issue` or `help wanted` in the issue tracker.
-4.  **Join the Conversation:** Discussion happens on our [Matrix Channel](#) (to be created) and in GitHub issues.
+3.  **Find an Issue:** Look for issues tagged `good first issue`.
 
 ## Documentation
 
-All documentation is in the `/docs` folder:
-
-*   **[`ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)** - System overview and component interaction.
-*   **[`PROTOCOL.md`](docs/05-PROTOCOL.md)** - **The core spec.** Packet formats, handshakes, and routing logic.
-*   **[`BUILD.md`](docs/07-BUILD.md)** - Guide for building the project from source.
-*   **[`CONTRIBUTING.md`](docs/08-CONTRIBUTING.md)** - Guidelines for contributors.
+All documentation is in the `/docs` folder. Start with:
+*   **[`ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)** - System overview.
+*   **[`PROTOCOL.md`](docs/05-PROTOCOL.md)** - **The core spec.**
 
 ## License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**. See the `LICENSE` file for details. This license ensures that all modifications and services based on Shadow-Path must also be open source.
+**GNU Affero General Public License v3.0 (AGPLv3)**.
 
 ## Disclaimer
 
-This project is in the early planning and development stages. The architecture and specifications are subject to change. It is not yet suitable for real-world privacy or security use cases.
+This project is in the early planning and development stages. It is not yet suitable for real-world use.
 
 ---
 
-**The internet should belong to its users. Help us build it.**
+**We are not building another tool. We are building another world.**
+
+### **`docs/01-VISION.md`**
+
+# The Shadow-Path Vision
+
+## What Shadow-Path Is Not
+
+*   It is not a proxy to access the existing internet anonymously.
+*   It is not a browser extension or plugin.
+*   It does not use HTTP, HTTPS, or any legacy web protocol for its core operation.
+
+## What Shadow-Path Is
+
+Shadow-Path is the foundation for a **sovereign digital commons**. It is a parallel dimension of the internet, built from first principles with censorship resistance, privacy, and user sovereignty as its immutable laws.
+
+*   **A Network:** A true peer-to-peer mesh, where users provide the infrastructure.
+*   **A Protocol:** The `sp:` protocol is its native language, used for addressing all content.
+*   **An Application:** A dedicated client is the passport to enter and experience this world.
+
+The vision is a future where communities can exist, communicate, and persist digitally on their own terms, untouchable by any central authority. Shadow-Path provides the ground upon which that future can be built.
+
+### **`docs/02-ARCHITECTURE.md`**
+
+# System Architecture
+
+## The Two-Layer Model
+
+Shadow-Path's architecture is split into two main layers:
+
+1.  **The Engine (`shadowd` Daemon):** A headless background process that handles all network and cryptographic operations. It is controlled via a local API.
+2.  **The Interface (`shadow` Client):** A graphical application that users interact with. It renders content retrieved by the daemon and sends it commands.
+
+## Component Interaction
+
+```mermaid
+graph TD
+    User[User] -->|Clicks sp: link| Client[shadow Client]
+    Client -->|API Command| Daemon[shadowd Daemon]
+    Daemon -->|Lost Path Protocol| Network[P2P Network]
+    Network -->|Returns Encrypted Chunks| Daemon
+    Daemon -->|Decrypts & Reassembles| Client
+    Client -->|Renders Content| User
+```
+
+## The `sp:` Protocol
+
+The `sp:` URI is the fundamental unit of addressability. Examples:
+-   `sp:ax8f...y9z1.path` (A file or website)
+-   `sp:chat...cafe.path` (A chat room)
+-   `sp:live...stream.path` (A live stream)
+
+The path suffix (e.g., `.path`) is a convention for human readability; the hash is the only identifier the network uses.
+
+## Network Bootstrapping
+
+New nodes connect to the network using hardcoded **Bootstrap Nodes**. These are stable peers run by the core team and early volunteers. After the initial connection, a node discovers other peers through the DHT and becomes a full part of the decentralized swarm.
+
+This architecture ensures the network is both bootstrappable and truly decentralized.
