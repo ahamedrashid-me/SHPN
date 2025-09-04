@@ -92,9 +92,8 @@ graph TB
 
 | Component | Purpose | Tech Stack |
 | :--- | :--- | :--- |
-| **`shadowd` Daemon** | Core engine. Manages P2P connections, crypto, and the Black Box. Runs sandboxed. | **D语言**, Libsodium (via Deimos), systemd |
-| **`candle` Client** | Sovereign GUI application. The user's window into the SHPN. Handles `sp:` links. | **D语言**, GTK/DlangUI, WebKitGTK (for rendering) |
-| **`ghost` CLI** | Power user tool for publishing, chat, and node management via terminal. | **D语言** |
+| **`shadowd` Daemon** | Core engine. Manages P2P connections, crypto, and the Black Box. Runs sandboxed. | **Daemon**, Libsodium (via Deimos), systemd |
+| **`candle` Client** | Sovereign GUI application. The user's window into the SHPN. Handles `sp:` links. | **Candle**, GTK/DlangUI, WebKitGTK (for rendering) |
 | **Lost Path Protocol (LPP)** | Suite of protocols that power the network. | Custom binary protocol over UDP/TCP |
 | **Black Box** | Encrypted, isolated storage on a volunteer's disk. Contents are unknowable. | Filesystem sandboxing, LRU cache eviction |
 
